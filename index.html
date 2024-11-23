@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .input{
+            display:flex;
+            width:70%;
+            margin:5%;
+            height:80px;
+            margin-left: 18%;
+            padding:20px;
+            background-color: royalblue;
+            text-align: center;
+            border-radius:10px;
+        }
+        button{
+            background-color:royalblue;
+            color:white;
+            margin-left: 1%;
+            width:80px;
+            height:40px;
+            border-radius: 5px;
+            border-color:white
+        }
+        input{
+            width:70%;
+            height:20px;
+            border-radius: 10px;
+            padding:1%;
+            border-color: inherit;
+        }
+        .list
+        {
+           list-style: none;
+           width:70%;
+           border-radius: 10px;
+           padding:1%;
+           margin-left: 11%;
+           background-color:royalblue;
+           text-align: center;
+           margin-bottom: 3%;
+        }
+        #text
+        {
+           width:70%;
+           margin-left: 18%;
+           background-color:white;
+           padding:1%;
+           border-radius: 10px;
+        }
+        .c1
+        {
+            display:flex;
+            color:white;
+        }
+        .b1
+        {
+            color:black;
+            height:30px;
+        }
+        nav{
+            width:100%;
+            height:60px;
+            background-color:royalblue ;
+            color:white;
+            text-align: center;
+        }
+        h4{
+            padding:10px;
+            margin-top: 10px;
+        }
+        button{
+            color:white;
+        }
+    </style>
+</head>
+<body onload="adding()">
+    <div>
+        <nav>
+            <h4>ToDo list</h4>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="input">
+            <input id="input" type="text" placeholder="Enter your text here">
+            <button onclick="add()">save</button>
+        </div>
+    </div>
+    <hr>
+    <p id="alert">
+
+    </p>
+    <div id="text">
+         
+    </div>
+</body>
+<script>
+      var element=document.getElementById("text");
+      var div=document.createElement('div');
+      var ul=document.createElement("ul")
+      element.append(div);
+      div.append(ul);
+      var input1=document.getElementById("input");
+      input1.addEventListener("keypress",eventlisten);
+ function eventlisten(event)
+ {
+     var input=document.getElementById("input");
+    if(event.keyCode==13)
+   {
+      if(input.value==="")
+      {
+        alert("Enter message");
+        return;
+      }
+      else
+      {
+         add();
+      }
+   }
+ }
+  function add()
+  {
+      var input=document.getElementById("input");
+      if(input.value==="")
+      {
+        alert("Enter message");
+      }
+      else
+      {
+        var div1=document.createElement("div");
+        var li=document.createElement("li");
+        li.innerText=input.value;
+        li.setAttribute("class","list");
+        var button=document.createElement("button");
+        div1.append(li);
+        div1.append(button);
+        button.setAttribute("class","b1")
+        button.innerText="Delete";
+        button.style.color="white";
+        button.addEventListener("click",deleting);
+        ul.append(div1);
+        div1.setAttribute("class","c1");
+      const items=JSON.parse(localStorage.getItem("items")) ||[];
+      items.push(input.value);
+      localStorage.setItem("items",JSON.stringify(items));
+      input.value="";
+      }
+  }
+  function deleting(event)
+  {
+      var element=event.target.parentElement;
+      var text=element.firstElementChild.innerText;
+      console.log(text);
+      element.remove();
+      const items=JSON.parse(localStorage.getItem("items"));
+      for(i=0;i<items.length;i++)
+      {
+         if(items[i]==text)
+         {
+            items.splice(i,1);
+            alert(`deleted element : ${i+1}`);
+         }
+       }
+       localStorage.setItem("items",JSON.stringify(items));
+  }
+  function adding()
+  {
+    const items=JSON.parse(localStorage.getItem('items'));
+    if(items!=null)
+    {
+        for(i=0;i<items.length;i++)
+        {
+        var div1=document.createElement("div");
+        var li=document.createElement("li");
+        li.innerText=items[i];
+        li.setAttribute("class","list");
+        var button=document.createElement("button");
+        div1.append(li);
+        div1.append(button);
+        button.setAttribute("class","b1")
+        button.innerText="Delete";
+        button.style.color="white";
+        button.addEventListener("click",deleting);
+        ul.append(div1);
+        div1.setAttribute("class","c1");
+        }
+    } 
+  }
+</script>
+</html>
